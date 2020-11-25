@@ -1,34 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="game.css" />
-    <title>Game Page</title>
-  </head>
 
-  <body>
-    <div class="container">
-      <div id="game" class="justify-center flex-column">
-        <div id="hud">
-          <div class="hud-item">
-            <h2 id="progressText" class="hud-prefix">
-              Can you find all the matches....
-            </h2>
-            <div id="progressBar">
-              <div id="progressBarFull"></div>
-            </div>
-          </div>
-          <div id="game-timer">00:00</div>
-          <div class="hud-item">
-            <h2 class="hud-prefix">Score</h2>
-            <h1 class="hud-main-text clickCounter" id="flipCount">0</h1>
-          </div>
-          <div class="game-container">Cards will go here</div>
-        </div>
-      </div>
-      <a href="index.html" class="btn reset-btn">Try Again</a>
-    </div>
-  </body>
+<head> 
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="stylesheet" href="style.css" />
+	<link rel="stylesheet" href="game.css" />
+	<title>Game Page</title>
+</head>
+
+<body>
+	<div class="container">
+		<div id="game" class="justify-center flex-column">
+			<div class="game-counter">
+				Flips: <span id="flip-counter"> 98</span>
+			</div>
+			<div class="game-timer">
+				Time: <span id="timer"> 00:00</span>
+			</div>
+		</div>
+
+		<!--game board-->
+		<div id="grid" class="board">
+		</div>
+		<a href="index.html" class="btn reset-btn">Try Again</a>
+	</div>
+
+</body>
+
 </html>

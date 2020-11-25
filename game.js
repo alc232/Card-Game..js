@@ -53,12 +53,16 @@ cardsArray = [{
     img: 'images/harley-img'
 }];
 
-let gameCard = cardsArray;
-let flipCount = 0;
-let firstClick = 0;
-let timeLeft;
-let matchedCards = [];
-let timerId;
+let gameCards = cardsArray,
+        flipCounter = 0,
+        firstClick = 0,
+        matchedCards = [],
+        timeRemaining,
+        currentName = '',
+        clickCounter = 98,
+        previousImgId = 0,
+        timerId;
+
 
 document.getElementById('reset-btn').addEventListener('click', resetGame, false);
 
@@ -104,10 +108,87 @@ function gameTimer(duration, display) {
 
     function flipCount() {
         clickCounter++;
-        let clickCounter = document.querySelector('#flip-counter');
-        clickCounter.textContent = clickCounter;
+        let clickCount = document.querySelector('#flip-counter');
+        clickCount.textContent = clickCounter;
     }
 
+    function shuffleCards(array) {
+  var shuffledCards = array.length,
+   t, i;
+
+  // While there remain elements to shuffle…
+  while (shuffledCards > 0) {
+
+    // Pick a remaining element…
+    i = Math.floor(Math.random() * shuffledCards);
+    shuffledCards--;
+
+    // And swap it with the current element.
+    t = array[shuffledCards];
+    array[shuffledCards] = array[i];
+    array[i] = t;
+  }
+
+  return array;
+}
+
+function createBoard(gameCards){
+    const grid = document.getElementById('grid');
+
+    let id = 1;
+    gameCards.array.forEach(element => {
+        let card = document.createElement('img');
+        card.setAttribute('id', id);
+        card.setAttribute('src', defaultImage);
+        card.setAttribute('data-name', element.name);
+        card.setAttribute('data-path', element.img);
+        card.classList.add('card');
+        card.onclick = function() {
+            if(flipCounter < 2) {
+                flipCard(this);
+                flipCount();
+            }
+        };
+
+        grid.appendChild(card);
+        id++;
+    });
+}
+
+shuffleCards(gameCards);
+createBoard(gameCards);
+
+function disableCards(card) {
+    card.classList.add('disable-card');
+    card.src = card.getAttribute('data-path');
+    setTimeout(checkForMatch(card), 500);
+}
+
+function checkForMatch() {
+    card.src = card.getAttribute('data-path');
+    let cardName = card.getAttribute('data-name');
+
+    let currentImgId = card.getAttribute('id');
+    flipCounter++;
+
+    if(parseInt(flipCounter) === 1) {
+        disableCards(card);
+        currentName = cardName;
+        previousImgId = card.getAttribute('id');
+        return;
+    } else if (cardName === currentName) {
+        disableCards(card);
+        flipCounter = 0;
+        currentName = '';
+        matchedCards.push(card);
+    } else if (flipCounter === maxFlip && cardName !== currentName) {
+        timeoutID = window.setTimeout(function() {
+            unFlip(previousImgId, currentImgId);
+            flipCounter = 0,
+            currentName = '';
+        }, 1000);
+    }
+}
 
 
 
