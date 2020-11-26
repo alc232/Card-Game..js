@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoader', () => {
 
-
 const defaultImage = 'images/batman-logo',
 maxFlip = 2,
 cardsArray = [{
@@ -193,8 +192,8 @@ function checkForMatch() {
 //  if cards dont match 
 
 function unFlip(PreviousCard, CurrentCard) {
-    let PreviousCard = document.querySelectorAll(`[id='${PreviousCard}]`)[0];
-    let CurrentCard = document.querySelectorAll(`[id='${CurrentCard}]`)[0];
+    let previousCard = document.querySelectorAll(`[id='${PreviousCard}]`)[0];
+    let currentCard = document.querySelectorAll(`[id='${CurrentCard}]`)[0];
 
     previousCard.classList.remove('card-back', 'card-front', 'flip', 'disable-card');
     currentCard.classList.remove('card-back', 'card-front', 'flip', 'disable-card');
@@ -209,8 +208,32 @@ function unFlip(PreviousCard, CurrentCard) {
 
 }
 
+function loseGame(timeRemaining) {
+    if(matchedCards.length < (gameCards.length / 2) && timeRemaining <= 0 || clickCounter === 0) {
+        return;
+    }
+}
 
+function resetGame() {
+    flipCounter = 0;
+    currentName = '';
+    clickCounter = 0;
+    previousImgId = 0;
+    matchedCards = [];
+    timeRemaining = 0;
+    firstClick = 0;
 
+    let node = document.getElementById('grid');
+    node.innerHTML = '';
 
+    shuffleCards(gameCards);
+    createBoard(gameCards);
 
-})
+    let clickCount = document.querySelector('#flip-counter');
+    clickCount.textContent = 100;
+    let timer = document.querySelector('#timer');
+    timer.textContent = '00:00';
+    clearInterval(timerId);
+}
+
+});
